@@ -33,6 +33,11 @@ void uiButtonSetText(uiButton *b, const char *text)
 	gtk_button_set_label(b->button, text);
 }
 
+void uiButtonSetIcon(uiButton *b, uiImage *image)
+{
+	gtk_button_set_image(b->button, gtk_image_new_from_pixbuf(uiImageGetPixbuf(image)));
+}
+
 void uiButtonOnClicked(uiButton *b, void (*f)(uiButton *, void *), void *data)
 {
 	b->onClicked = f;

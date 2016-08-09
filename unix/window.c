@@ -144,6 +144,11 @@ void uiWindowSetTitle(uiWindow *w, const char *title)
 	gtk_window_set_title(w->window, title);
 }
 
+void uiWindowSetIcon(uiWindow *w, uiImage *image)
+{
+	gtk_window_set_icon(w->window, uiImageGetPixbuf(image));
+}
+
 // TODO allow specifying either as NULL on all platforms
 void uiWindowPosition(uiWindow *w, int *x, int *y)
 {

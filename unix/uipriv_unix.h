@@ -50,3 +50,6 @@ extern PangoFont *pangoDescToPangoFont(PangoFontDescription *pdesc);
 
 // graphemes.c
 extern ptrdiff_t *graphemes(const char *text, PangoContext *context);
+
+// images.c
+extern GdkPixbuf* uiImageGetPixbuf(uiImage *image);

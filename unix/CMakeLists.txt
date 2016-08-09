@@ -26,6 +26,8 @@ list(APPEND _LIBUI_SOURCES
 	unix/graphemes.c
 	unix/grid.c
 	unix/group.c
+	unix/images.c
+	unix/imagebox.c
 	unix/label.c
 	unix/main.c
 	unix/menu.c

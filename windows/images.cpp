@@ -7,16 +7,34 @@
 
 struct uiImage
 {
-	void *data;
 	IWICBitmapSource *ipBitmap;
 };
 
 uiImage* uiNewImage(uiImage *copy)
 {
-	uiImage* i = (uiImage*) uiAlloc(sizeof(uiImage), "uiImage");
-	i->data = NULL;
-	i->ipBitmap = NULL;
-	return i;
+	uiImage* image = (uiImage*) uiAlloc(sizeof(uiImage), "uiImage");
+	image->ipBitmap = NULL;
+
+	if (copy && copy->ipBitmap)
+	{
+		// Create WIC factory
+		IWICImagingFactory *factory = NULL;
+		
+		if(FAILED(CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&factory)))
+		{
+			return NULL;
+		}
+
+		// copy bitmap
+		factory->CreateBitmapFromSource(copy->ipBitmap, WICBitmapCacheOnDemand, (IWICBitmap **) &image->ipBitmap);
+
+		if (factory)
+		{
+			factory->Release();
+		}
+	}
+
+	return image;
 }
 
 void uiImageDestroy(uiImage *image)
@@ -101,13 +119,13 @@ int uiImageSize(uiImage *image, int *width, int *height)
 }
 
 
-int uiImageResize(uiImage *image, int width, int height)
+uiImage * uiImageResize(uiImage *image, int width, int height)
 {
 	HRESULT hr;
 
 	if(image->ipBitmap == NULL)
 	{
-		return 0;
+		return NULL;
 	}
 
 	// Create WIC factory
@@ -115,7 +133,7 @@ int uiImageResize(uiImage *image, int width, int height)
 	hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&factory);
 	if(FAILED(hr))
 	{
-		return 0;
+		return NULL;
 	}
 
 	// configure scaler
@@ -142,11 +160,12 @@ int uiImageResize(uiImage *image, int width, int height)
 
 	if (SUCCEEDED(hr))
 	{
-		image->ipBitmap->Release();
-		image->ipBitmap = (IWICBitmapSource*) newbitmap;
+		uiImage* newimage = (uiImage*) uiAlloc(sizeof(uiImage), "uiImage");
+		newimage->ipBitmap = newbitmap;
+		return newimage;
 	}
 
-	return SUCCEEDED(hr);
+	return NULL;
 }
 
 

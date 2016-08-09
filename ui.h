@@ -58,12 +58,12 @@ _UI_EXTERN void uiFreeText(char *text);
 
 typedef struct uiImage uiImage;
 #define uiImage(this) ((uiImage *) (this))
-_UI_EXTERN uiImage* uiNewImage(uiImage *copy);
+_UI_EXTERN uiImage * uiNewImage(uiImage *copy);
 _UI_EXTERN void uiImageDestroy(uiImage *image);
 _UI_EXTERN int uiImageLoad(uiImage *image, char const* file);
 _UI_EXTERN int uiImageValid(uiImage *image);
 _UI_EXTERN int uiImageSize(uiImage *image, int *width, int *height);
-_UI_EXTERN int uiImageResize(uiImage *image, int width, int height);
+_UI_EXTERN uiImage * uiImageResize(uiImage *image, int width, int height);
 
 typedef struct uiControl uiControl;
 

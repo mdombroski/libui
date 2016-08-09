@@ -66,7 +66,7 @@ int uiImageSize(uiImage *image, int *width, int *height)
 }
 
 
-int uiImageResize(uiImage *image, int width, int height)
+uiImage * uiImageResize(uiImage *image, int width, int height)
 {
 	if(image->pixbuf == NULL)
 	{
@@ -76,11 +76,11 @@ int uiImageResize(uiImage *image, int width, int height)
 	GdkPixbuf *newpixbuf = gdk_pixbuf_scale_simple(image->pixbuf, width, height, GDK_INTERP_BILINEAR);
 	if (newpixbuf)
 	{
-		g_object_unref(image->pixbuf);
-		image->pixbuf = newpixbuf;
-		return 1;
+		uiImage* newimage = (uiImage*) uiAlloc(sizeof(uiImage), "uiImage");
+		newimage->pixbuf = newpixbuf;
+		return newimage;
 	}
-	
+
 	return 0;
 }
 

@@ -55,6 +55,15 @@ _UI_EXTERN void uiOnShouldQuit(int (*f)(void *data), void *data);
 
 _UI_EXTERN void uiFreeText(char *text);
 
+typedef struct uiImage uiImage;
+#define uiImage(this) ((uiImage *) (this))
+_UI_EXTERN uiImage* uiNewImage(uiImage *copy);
+_UI_EXTERN void uiImageDestroy(uiImage *image);
+_UI_EXTERN int uiImageLoad(uiImage *image, char const* file);
+_UI_EXTERN int uiImageValid(uiImage *image);
+_UI_EXTERN int uiImageSize(uiImage *image, int *width, int *height);
+_UI_EXTERN int uiImageResize(uiImage *image, int width, int height);
+
 typedef struct uiControl uiControl;
 
 struct uiControl {
@@ -100,6 +109,7 @@ typedef struct uiWindow uiWindow;
 #define uiWindow(this) ((uiWindow *) (this))
 _UI_EXTERN char *uiWindowTitle(uiWindow *w);
 _UI_EXTERN void uiWindowSetTitle(uiWindow *w, const char *title);
+_UI_EXTERN void uiWindowSetIcon(uiWindow *w, uiImage *image);
 _UI_EXTERN void uiWindowPosition(uiWindow *w, int *x, int *y);
 _UI_EXTERN void uiWindowSetPosition(uiWindow *w, int x, int y);
 _UI_EXTERN void uiWindowCenter(uiWindow *w);
@@ -121,6 +131,7 @@ typedef struct uiButton uiButton;
 #define uiButton(this) ((uiButton *) (this))
 _UI_EXTERN char *uiButtonText(uiButton *b);
 _UI_EXTERN void uiButtonSetText(uiButton *b, const char *text);
+_UI_EXTERN void uiButtonSetIcon(uiButton *b, uiImage *image);
 _UI_EXTERN void uiButtonOnClicked(uiButton *b, void (*f)(uiButton *b, void *data), void *data);
 _UI_EXTERN uiButton *uiNewButton(const char *text);
 
@@ -158,6 +169,11 @@ typedef struct uiLabel uiLabel;
 _UI_EXTERN char *uiLabelText(uiLabel *l);
 _UI_EXTERN void uiLabelSetText(uiLabel *l, const char *text);
 _UI_EXTERN uiLabel *uiNewLabel(const char *text);
+
+typedef struct uiImageBox uiImageBox;
+#define uiImageBox(this) ((uiImageBox *) (this))
+_UI_EXTERN void uiImageBoxSetImage(uiImageBox* b, uiImage *image);
+_UI_EXTERN uiImageBox *uiNewImageBox(uiImage *image);
 
 typedef struct uiTab uiTab;
 #define uiTab(this) ((uiTab *) (this))

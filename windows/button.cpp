@@ -23,6 +23,7 @@ static void uiButtonDestroy(uiControl *c)
 {
 	uiButton *b = uiButton(c);
 
+	uiButtonSetIcon(b, NULL);
 	uiWindowsUnregisterWM_COMMANDHandler(b->hwnd);
 	uiWindowsEnsureDestroyWindow(b->hwnd);
 	uiFreeControl(uiControl(b));
@@ -74,6 +75,25 @@ void uiButtonSetText(uiButton *b, const char *text)
 	uiWindowsSetWindowText(b->hwnd, text);
 	// changing the text might necessitate a change in the button's size
 	uiWindowsControlMinimumSizeChanged(uiWindowsControl(b));
+}
+
+void uiButtonSetIcon(uiButton *b, uiImage *image)
+{
+	HBITMAP bmp = uiImageGetHBITMAP(image);
+
+	// it is a responsibility of the programmer to delete the old bitmap
+	HBITMAP old = (HBITMAP) SendMessage(b->hwnd, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM) bmp);
+	if (old && old != bmp)
+	{
+		DeleteObject(old);
+	}
+
+	// sometimes an internal copy is made and bmp must be deleted
+	HBITMAP copy = (HBITMAP) SendMessage(b->hwnd, BM_GETIMAGE, IMAGE_BITMAP, 0);
+	if (copy && bmp && copy != bmp)
+	{
+		DeleteObject(bmp);
+	}
 }
 
 void uiButtonOnClicked(uiButton *b, void (*f)(uiButton *, void *), void *data)

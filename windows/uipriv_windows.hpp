@@ -1,3 +1,6 @@
+#ifndef UIPRIV_WINDOWS_HPP
+#define UIPRIV_WINDOWS_HPP
+
 // 21 april 2016
 #include "winapi.hpp"
 #include "../ui.h"
@@ -5,6 +8,7 @@
 #include "../common/uipriv.h"
 #include "resources.hpp"
 #include "compilerver.hpp"
+#include "images.h"
 
 // ui internal window messages
 enum {
@@ -162,3 +166,6 @@ extern D2D1_SIZE_F realGetSize(ID2D1RenderTarget *rt);
 
 // draw.cpp
 extern ID2D1DCRenderTarget *makeHDCRenderTarget(HDC dc, RECT *r);
+
+
+#endif // UIPRIV_WINDOWS_HPP

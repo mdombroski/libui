@@ -34,6 +34,8 @@ list(APPEND _LIBUI_SOURCES
 	windows/group.cpp
 	windows/init.cpp
 	windows/label.cpp
+	windows/imagebox.cpp
+	windows/images.cpp
 	windows/main.cpp
 	windows/menu.cpp
 	windows/multilineentry.cpp
@@ -80,7 +82,7 @@ endmacro()
 # notice that usp10 comes before gdi32
 # TODO prune this list
 set(_LIBUI_LIBS
-	user32 kernel32 usp10 gdi32 comctl32 uxtheme msimg32 comdlg32 d2d1 dwrite ole32 oleaut32 oleacc uuid
+	user32 kernel32 usp10 gdi32 comctl32 uxtheme msimg32 comdlg32 d2d1 dwrite ole32 oleaut32 oleacc uuid windowscodecs
 PARENT_SCOPE)
 
 if(NOT MSVC)

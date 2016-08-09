@@ -296,6 +296,18 @@ void uiWindowSetTitle(uiWindow *w, const char *title)
 	// don't queue resize; the caption isn't part of what affects layout and sizing of the client area (it'll be ellipsized if too long)
 }
 
+void uiWindowSetIcon(uiWindow *w, uiImage *image)
+{
+	HICON icon = uiImageGetHICON(image);
+	if (icon)
+	{
+		// The system does not make a copy of the icon. Do not destroy the icon before destroying the window.
+		// This is a probably memory leak.
+		SendMessage(w->hwnd, WM_SETICON, ICON_SMALL, (LPARAM) icon);
+//		SendMessage(w->hwnd, WM_SETICON, ICON_BIG, (LPARAM) icon);
+	}
+}
+
 void uiWindowPosition(uiWindow *w, int *x, int *y)
 {
 	RECT r;

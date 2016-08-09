@@ -80,6 +80,33 @@ void uiQuit(void)
 	gdk_threads_add_idle(quit, NULL);
 }
 
+struct _timeout
+{
+	int (*f)(void *);
+	void *data;
+};
+
+static gboolean dotimeout(gpointer data)
+{
+	struct _timeout *t = (struct _timeout *) data;
+
+	if ((*(t->f))(t->data))
+	{
+		return TRUE;
+	}
+
+	uiFree(t);
+	return FALSE;
+}
+
+void uiTimeout(int millisec, int (*f)(void *data), void *data)
+{
+	struct _timeout *t = uiNew(struct _timeout);
+	t->f = f;
+	t->data = data;
+	g_timeout_add(millisec, dotimeout, t);
+}
+
 struct queued {
 	void (*f)(void *);
 	void *data;

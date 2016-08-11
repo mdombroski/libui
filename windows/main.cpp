@@ -128,3 +128,32 @@ void uiQueueMain(void (*f)(void *data), void *data)
 		// LONGTERM this is likely not safe to call across threads (allocates memory)
 		logLastError(L"error queueing function to run on main thread");
 }
+
+static std::map<UINT_PTR,std::tuple<int (*)(void *), void *>> timers;
+
+static void CALLBACK timerproc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+	auto const it = timers.find(idEvent);
+	if (it != timers.end())
+	{
+		auto f = std::get<0>(it->second);
+		auto d = std::get<1>(it->second);
+		if (f(d) == 1)
+		{
+			return;
+		}
+
+		timers.erase(it);
+	}
+
+	KillTimer(hwnd, idEvent);
+}
+
+void uiTimeout(int millisec, int (*f)(void *data), void *data)
+{
+	UINT_PTR id = SetTimer(NULL, NULL, millisec, timerproc);
+	if (id)
+	{
+		timers.emplace(id, std::make_tuple(f, data));
+	}
+}

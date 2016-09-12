@@ -466,6 +466,17 @@ void uiDrawClip(uiDrawContext *c, uiDrawPath *path)
 	// we have a reference already; no need for another
 }
 
+void uiDrawImage(uiDrawContext *c, double x, double y, uiImage *image)
+{
+	ID2D1Bitmap* bmp;
+	IWICBitmapSource* src = uiImageGetIWICBitmapSource(image);
+	c->rt->CreateBitmapFromWicBitmap(src, &bmp);
+	D2D1_SIZE_U sz = bmp->GetPixelSize();
+	D2D1_RECT_F dst = D2D1::RectF(x, y, x+sz.width, y+sz.height);
+	c->rt->DrawBitmap(bmp, dst, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, NULL);
+	bmp->Release();
+}
+
 struct drawState {
 	ID2D1DrawingStateBlock *dsb;
 	ID2D1PathGeometry *clip;

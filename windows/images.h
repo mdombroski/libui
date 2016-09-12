@@ -5,5 +5,6 @@
 
 HBITMAP uiImageGetHBITMAP(uiImage* image);
 HICON uiImageGetHICON(uiImage* image);
+IWICBitmapSource* uiImageGetIWICBitmapSource(uiImage* image);
 
 #endif // IMAGES_H

@@ -237,3 +237,7 @@ HICON uiImageGetHICON(uiImage* image)
 	return icon;
 }
 
+IWICBitmapSource* uiImageGetIWICBitmapSource(uiImage* image)
+{
+	return image->ipBitmap;
+}

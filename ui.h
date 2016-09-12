@@ -558,6 +558,8 @@ _UI_EXTERN void uiDrawTextLayoutSetColor(uiDrawTextLayout *layout, int startChar
 
 _UI_EXTERN void uiDrawText(uiDrawContext *c, double x, double y, uiDrawTextLayout *layout);
 
+_UI_EXTERN void uiDrawImage(uiDrawContext *c, double x, double y, uiImage *image);
+
 _UI_ENUM(uiModifiers) {
 	uiModifierCtrl = 1 << 0,
 	uiModifierAlt = 1 << 1,

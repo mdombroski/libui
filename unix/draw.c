@@ -139,3 +139,10 @@ void uiDrawRestore(uiDrawContext *c)
 {
 	cairo_restore(c->cr);
 }
+
+void uiDrawImage(uiDrawContext *c, double x, double y, uiImage *image)
+{
+	GdkPixbuf *pixbuf = uiImageGetPixbuf(image);
+	gdk_cairo_set_source_pixbuf(c->cr, pixbuf, x, y);
+	cairo_paint(c->cr);
+}

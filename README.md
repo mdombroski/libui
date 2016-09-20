@@ -1,5 +1,9 @@
 # libui: a portable GUI library for C
 
+This fork contains some extra things that I thought useful. uiImage, uiImageBox, uiDrawImage and uiTimeout.<br>
+Apparently, some of those might be coming in a later version of libui. When that happens I will rebase on that.
+
+
 This README is being written.<br>
 [![Build Status](https://travis-ci.org/andlabs/libui.svg)](https://travis-ci.org/andlabs/libui)
 
